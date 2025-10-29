@@ -23,7 +23,7 @@ contas = []
 # FUNÇÃO SACAR COM TODOS ARGUMENTOS KEYWORDS ONLY
 def sacar (*, valor: float) -> None:
         
-        global saldo, extrato, limite, numero_saques, LIMITE_SAQUES
+        global saldo, extrato, limite, numero_saques
 
         excedeu_saldo = valor > saldo
 
@@ -73,12 +73,12 @@ def ver_extrato(saldo: float, *, extrato: str) -> None:
     print(f"\nSaldo: R$ {saldo:.2f}")
     print("==========================================")
 
-
+# FUNÇÃO CRIAR USUÁRIO
 def criar_usuario():
     
     global usuarios
 
-    print("\n================ CADASTRO DE USUÁRIO ================\n\n")
+    print("\n================ CRIAR USUÁRIO ================\n\n")
     nome = input("Digite o nome do usuário: ")
     data_nascimento = input("Digite a data de nascimento dd/mm/yyyy: ")
     cpf = input("Digite o CPF: ")
@@ -89,21 +89,27 @@ def criar_usuario():
     else:
         print("\nNão foi possível realizar o cadastro!\nEsse usuário já foi cadastrado anteriormente.")
 
+# FUNÇÃO LISTAR USUÁRIOS CADASTRADOS
+def listar_usuarios():
+    print(8*"=", " USUÁRIOS CADASTRADOS ", 8*"=")
 
-def listar_usuarios(usuarios: list = usuarios):
-    print(8*"=", " USUÁRIOS CADATRADOS ", 8*"=")
-    for indice, user in enumerate(usuarios):
-        print(f"Usuário: {indice + 1}")
+    if not usuarios:
+        print("Nenhum usuário cadastrado")
+        print(37 * "=")
+        return
+    
+    for i, user in enumerate(usuarios, start=1):
+        print(f"Usuário: {i}")
         for chave, valor in user.items():
             print(f"{chave}: {valor}")
         print(37 * "=")
 
-
+# FUNÇÃO CRIAR CONTA
 def criar_conta(agencia: str = "0001"):
      
     global contas, usuarios
 
-    print("\n================ CADASTRO DE CONTA ================\n\n")
+    print("\n================ CRIAR CONTA ================\n\n")
     conta = str(len(contas) + 1)
     cpf = input("Digite um CPF de usuário cadastrado: ")
 
@@ -116,14 +122,18 @@ def criar_conta(agencia: str = "0001"):
             "Usuário": user[0]
             }
         )
-        print(f"Conta número: {int(conta):05d} de {user[0]["Nome"]} - CPF: {user[0]["CPF"]} cadastrada com sucesso!")
+        print(f"Conta número: {conta} de {user[0]['Nome']} - CPF: {user[0]['CPF']} cadastrada com sucesso!")
     else:
-        print("Não foi possível criar a conta. Não existe usuário cadastrado com o CPF - {cpf} informado.")
+        print(f"Não foi possível criar a conta. Não existe usuário cadastrado com o CPF - {cpf} informado.")
 
-
-def listar_contas(contas: list = contas):
+# FUNÇÃO LISTAR CONTAS
+def listar_contas():
     print(8*"=" + " Lista Contas Cadastradas " + 8*"=")
-    for indice, conta in enumerate(contas):
+
+    if not contas:
+        print("Nenhuma conta criada!")
+
+    for conta in contas:
         for chave, valor in conta.items():
             if chave == "Usuário":
                 print("Cliente:")
